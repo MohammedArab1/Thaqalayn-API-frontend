@@ -65,7 +65,7 @@ function App() {
       return getBookText(book).text
     } 
     else if (item.text === "URL") {
-      return <Linkify><a target="blank" href={URL}>{URL}</a></Linkify>
+      return <Linkify><a target="blank" style={{color:"#FFFBDB"}} href={URL}>{URL}</a></Linkify>
     }
     else {
       return item.item
@@ -116,6 +116,13 @@ function App() {
           alignItems="center">
             <h1 style={{fontFamily: "Source Sans Pro"}}>Random hadith generator from hadiths found on Thaqalayn.net</h1>
           </Box>
+          <Box display="flex" justifyContent="center"
+          alignItems="center">
+            <p style={{fontFamily: "Source Sans Pro"}}>
+              This page is a simple UI showcasing one endpoint from an API created to retrieve hadiths found on Thaqalayn.net. 
+              API details can be found on my  <a href="https://github.com/MohammedArab1/ThaqalaynAPI" style={{color:"#FFFBDB"}} target="_blank">github page</a>.
+            </p>
+          </Box>
         </Grid>
         <Grid item xs={2} md={3}>
         </Grid>
@@ -144,7 +151,7 @@ function App() {
               ))}
             </Select>
           </FormControl>
-        <Button variant="contained" color="secondary" disableElevation onClick={() => {generateRandomHadith()}}>Generate Hadith</Button>
+        <Button variant="contained" color="primary" disableElevation onClick={() => {generateRandomHadith()}} >Generate Hadith</Button>
       </Box>
       <Grid container>
         <Grid item xs={1} md={2}></Grid>
@@ -163,9 +170,10 @@ function App() {
                   <h3>
                     {item.text}
                   </h3>
-                  <span style={{fontFamily: "Source Sans Pro"}}>{getBookElementText(item)}</span>
+                  <span style={{fontFamily: "Source Sans Pro",fontSize:"1.2rem"}}>{getBookElementText(item)}</span>
                 </div>
               </Grid>
+              // style={{fontSize:fontSize, fontWeight:fontWeight}}
             })}
           </Grid>
         </Grid>
@@ -179,7 +187,7 @@ function App() {
             <Grid item>
             <Button color="primary" size="large" startIcon={<GitHubIcon fontSize="large"></GitHubIcon> } onClick={(e) => {
               window.open('https://github.com/MohammedArab1/ThaqalaynAPI', "_blank")}}>
-              Github Link
+              
             </Button>
             </Grid>
           </Grid>
