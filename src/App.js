@@ -51,6 +51,7 @@ function App() {
   const [behdudiGrading, setBehdudiGrading] = React.useState("")
   const [majlisiGrading, setMajlisiGrading] = React.useState("")
   const [mohseniGrading, setMohseniGrading] = React.useState("")
+  const [chapter, setChapter] = React.useState("")
   const [URL, setURL] = React.useState("")
   const [chosenBook, setChosenBook] = React.useState(books[0].value)
 
@@ -75,6 +76,7 @@ function App() {
     {item:englishText, text: "English Text"},
     {item:arabicText, text: "Arabic Text"},
     {item:book, text: "Book"},
+    {item:chapter, text: "Chapter"},
     {item:majlisiGrading, text: "Majlisi Grading"},
     {item:behdudiGrading, text: "Behdudi Grading"},
     {item:mohseniGrading, text: "Mohseni Grading"},
@@ -99,6 +101,7 @@ function App() {
     setEnglishText(data.englishText)
     setArabicText(data.arabicText)
     setBook(data.book)
+    setChapter(data.chapter)
     setMajlisiGrading(data.majlisiGrading)
     setBehdudiGrading(data.behdudiGrading)
     setMohseniGrading(data.mohseniGrading)
