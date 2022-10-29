@@ -24,25 +24,25 @@ function App() {
     {value: 'allBooks', text: 'All Books'},
     {value: 'Al-Amali', text: 'Al-Amālī'},
     {value: 'Al-Khisal', text: 'Al-Khiṣāl'},
-    {value: 'Al-Kafi-Volume1', text: 'Al-Kāfi - Volume 1'},
-    {value: 'Al-Kafi-Volume2', text: 'Al-Kāfi - Volume 2'},
-    {value: 'Al-Kafi-Volume3', text: 'Al-Kāfi - Volume 3'},
-    {value: 'Al-Kafi-Volume4', text: 'Al-Kāfi - Volume 4'},
-    {value: 'Al-Kafi-Volume5', text: 'Al-Kāfi - Volume 5'},
-    {value: 'Al-Kafi-Volume6', text: 'Al-Kāfi - Volume 6'},
-    {value: 'Al-Kafi-Volume7', text: 'Al-Kāfi - Volume 7'},
-    {value: 'Al-Kafi-Volume8', text: 'Al-Kāfi - Volume 8'},
+    {value: 'Al-Kafi-Volume-1', text: 'Al-Kāfi - Volume 1'},
+    {value: 'Al-Kafi-Volume-2', text: 'Al-Kāfi - Volume 2'},
+    {value: 'Al-Kafi-Volume-3', text: 'Al-Kāfi - Volume 3'},
+    {value: 'Al-Kafi-Volume-4', text: 'Al-Kāfi - Volume 4'},
+    {value: 'Al-Kafi-Volume-5', text: 'Al-Kāfi - Volume 5'},
+    {value: 'Al-Kafi-Volume-6', text: 'Al-Kāfi - Volume 6'},
+    {value: 'Al-Kafi-Volume-7', text: 'Al-Kāfi - Volume 7'},
+    {value: 'Al-Kafi-Volume-8', text: 'Al-Kāfi - Volume 8'},
     {value: 'Al-Tawhid', text: 'Al-Tawḥīd'},
     {value: 'Fadail-al-Shia', text: 'Faḍaʾil al-Shīʿa'},
-    {value: 'Kamil-Al-Ziyarat', text: 'Kāmil al-Ziyārāt'},
-    {value: 'Kitab-Al-Ghayba-numani', text: 'Kitāb al-Ghayba al-Nuʿmānī'},
-    {value: 'Kitab-Al-Ghayba-Tusi', text: 'Kitāb al-Ghayba al-Ṭūsī'},
+    {value: 'Kamil-al-Ziyarat', text: 'Kāmil al-Ziyārāt'},
+    {value: 'Kitab-al-Ghayba-Numani', text: 'Kitāb al-Ghayba al-Nuʿmānī'},
+    {value: 'Kitab-al-Ghayba-Tusi', text: 'Kitāb al-Ghayba al-Ṭūsī'},
     {value: 'Mujam-al-Ahadith-al-Mutabara', text: 'Muʿjam al-Aḥādīth al-Muʿtabara'},
     {value: 'Rijal-Ibn-al-Ghadairi', text: "Rijāl Ibn al-Ghaḍā'irī"},
-    {value: 'Sifat-Al-Shia', text: 'Ṣifāt al-Shīʿa'},
-    {value: 'Thawab-al-Amal-waiqab-al-Amal', text: 'Thawāb al-Aʿmāl wa ʿiqāb al-Aʿmāl'},
-    {value: 'Uyun-akhbar-al-Rida-Volume1', text: 'ʿUyūn akhbār al-Riḍā - Volume 1'},
-    {value: 'Uyun-akhbar-al-Rida-Volume2', text: 'ʿUyūn akhbār al-Riḍā - Volume 2'},
+    {value: 'Sifat-al-Shia', text: 'Ṣifāt al-Shīʿa'},
+    {value: 'Thawab-al-Amal-wa-iqab-al-Amal', text: 'Thawāb al-Aʿmāl wa ʿiqāb al-Aʿmāl'},
+    {value: 'Uyun-akhbar-al-Rida-Volume-1', text: 'ʿUyūn akhbār al-Riḍā - Volume 1'},
+    {value: 'Uyun-akhbar-al-Rida-Volume-2', text: 'ʿUyūn akhbār al-Riḍā - Volume 2'},
   ];
 
   const [englishText, setEnglishText] = React.useState("")
@@ -90,11 +90,11 @@ function App() {
     let request = undefined
     let data = undefined
     if (chosenBook === "allBooks") {
-      request = await axios.get("/api/random")
+      request = await axios.get("https://9pq0cudihi.execute-api.us-east-1.amazonaws.com/dev/api/random")
       data = request.data
     }
     else {
-      const requestURL = "/api/" + chosenBook+"/" +"random"
+      const requestURL = "https://9pq0cudihi.execute-api.us-east-1.amazonaws.com/dev/api/" + chosenBook+"/" +"random"
       request = await axios.get(requestURL)
       data = request.data[0]
     }
