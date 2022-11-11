@@ -13,37 +13,26 @@ function App() {
     },
   });
 
+  let books = [ {value: 'allBooks', text: 'All Books'}];
+
   React.useEffect(() => {
     WebFont.load({
       google: {
         families: ['Droid Sans', 'Abel', 'Source Sans Pro']
       }
     });
+    const fetchData = async () => {
+      const data = await axios.get("https://9pq0cudihi.execute-api.us-east-1.amazonaws.com/dev/api/allbooks")
+      for (let i = 0;i<data.data.length;i++) {
+        let someBook = data.data[i]
+        let newAuthor = someBook.author.split("al-");
+        books.push({value:someBook.bookId,text:someBook.BookName+" al-"+newAuthor[newAuthor.length-1]})
+      }
+      setAllBooks(books)
+    }
+    fetchData()
   }, []);
-  const books = [
-    {value: 'allBooks', text: 'All Books'},
-    {value: 'Al-Amali', text: 'Al-Amālī'},
-    {value: 'Al-Khisal', text: 'Al-Khiṣāl'},
-    {value: 'Al-Kafi-Volume-1', text: 'Al-Kāfi - Volume 1'},
-    {value: 'Al-Kafi-Volume-2', text: 'Al-Kāfi - Volume 2'},
-    {value: 'Al-Kafi-Volume-3', text: 'Al-Kāfi - Volume 3'},
-    {value: 'Al-Kafi-Volume-4', text: 'Al-Kāfi - Volume 4'},
-    {value: 'Al-Kafi-Volume-5', text: 'Al-Kāfi - Volume 5'},
-    {value: 'Al-Kafi-Volume-6', text: 'Al-Kāfi - Volume 6'},
-    {value: 'Al-Kafi-Volume-7', text: 'Al-Kāfi - Volume 7'},
-    {value: 'Al-Kafi-Volume-8', text: 'Al-Kāfi - Volume 8'},
-    {value: 'Al-Tawhid', text: 'Al-Tawḥīd'},
-    {value: 'Fadail-al-Shia', text: 'Faḍaʾil al-Shīʿa'},
-    {value: 'Kamil-al-Ziyarat', text: 'Kāmil al-Ziyārāt'},
-    {value: 'Kitab-al-Ghayba-Numani', text: 'Kitāb al-Ghayba al-Nuʿmānī'},
-    {value: 'Kitab-al-Ghayba-Tusi', text: 'Kitāb al-Ghayba al-Ṭūsī'},
-    {value: 'Mujam-al-Ahadith-al-Mutabara', text: 'Muʿjam al-Aḥādīth al-Muʿtabara'},
-    {value: 'Rijal-Ibn-al-Ghadairi', text: "Rijāl Ibn al-Ghaḍā'irī"},
-    {value: 'Sifat-al-Shia', text: 'Ṣifāt al-Shīʿa'},
-    {value: 'Thawab-al-Amal-wa-iqab-al-Amal', text: 'Thawāb al-Aʿmāl wa ʿiqāb al-Aʿmāl'},
-    {value: 'Uyun-akhbar-al-Rida-Volume-1', text: 'ʿUyūn akhbār al-Riḍā - Volume 1'},
-    {value: 'Uyun-akhbar-al-Rida-Volume-2', text: 'ʿUyūn akhbār al-Riḍā - Volume 2'},
-  ];
+
 
   const [englishText, setEnglishText] = React.useState("")
   const [arabicText, setArabicText] = React.useState("")
@@ -54,18 +43,11 @@ function App() {
   const [chapter, setChapter] = React.useState("")
   const [URL, setURL] = React.useState("")
   const [chosenBook, setChosenBook] = React.useState(books[0].value)
+  const [allBooks, setAllBooks] = React.useState([])
+  const [author, setAuthor] = React.useState("")
 
-  //used by getBookElementText to return the proper name of the book based on the "english name"
-  const getBookText = (book) => {
-    const element = books.find(item => item.value === book)
-    return element
-  }
-  //takes an item from 'fullHadithKit' array, if we're looking at a book or a URL, we return something special. Else, just return the normal text
   const getBookElementText = (item) => {
-    if (item.text === "Book") {
-      return getBookText(book).text
-    } 
-    else if (item.text === "URL") {
+    if (item.text === "URL") {
       return <Linkify><a target="blank" style={{color:"#FFFBDB"}} href={URL}>{URL}</a></Linkify>
     }
     else {
@@ -76,6 +58,7 @@ function App() {
     {item:englishText, text: "English Text"},
     {item:arabicText, text: "Arabic Text"},
     {item:book, text: "Book"},
+    {item:author,text: "Author"},
     {item:chapter, text: "Chapter"},
     {item:majlisiGrading, text: "Majlisi Grading"},
     {item:behdudiGrading, text: "Behdudi Grading"},
@@ -89,18 +72,22 @@ function App() {
   const generateRandomHadith = async () => {
     let request = undefined
     let data = undefined
+    console.log("chosenBook: ",chosenBook);
     if (chosenBook === "allBooks") {
       request = await axios.get("https://9pq0cudihi.execute-api.us-east-1.amazonaws.com/dev/api/random")
       data = request.data
+      console.log("data after clicking button: ",data);
     }
     else {
-      const requestURL = "https://9pq0cudihi.execute-api.us-east-1.amazonaws.com/dev/api/" + chosenBook+"/" +"random"
+      const requestURL = "https://9pq0cudihi.execute-api.us-east-1.amazonaws.com/dev/api/" + chosenBook+"/" +"random" 
       request = await axios.get(requestURL)
       data = request.data[0]
+      console.log("data after clicking button: ",data);
     }
     setEnglishText(data.englishText)
     setArabicText(data.arabicText)
     setBook(data.book)
+    setAuthor(data.author)
     setChapter(data.chapter)
     setMajlisiGrading(data.majlisiGrading)
     setBehdudiGrading(data.behdudiGrading)
@@ -147,7 +134,7 @@ function App() {
               onChange={handleBookChange}
               autoWidth
             >
-              {books.map(book => (
+              {allBooks.map(book => (
                 <MenuItem value={book.value} key={book.value}>
                   {book.text}
                 </MenuItem>
@@ -167,7 +154,7 @@ function App() {
             spacing={4}
             >
             {fullHadithKit.map(item => {
-              return item.item.length > 0 &&
+              return item.item &&
               <Grid item xs={6} md={6} key={item.text}>
                 <div>
                   <h3>
@@ -176,7 +163,6 @@ function App() {
                   <span style={{fontFamily: "Source Sans Pro",fontSize:"1.2rem"}}>{getBookElementText(item)}</span>
                 </div>
               </Grid>
-              // style={{fontSize:fontSize, fontWeight:fontWeight}}
             })}
           </Grid>
         </Grid>
