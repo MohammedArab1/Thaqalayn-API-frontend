@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "thaqalayn-api-423621",
     "public": "build",
     "ignore": [
       "firebase.json",

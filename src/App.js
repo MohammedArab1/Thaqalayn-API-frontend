@@ -12,7 +12,7 @@ function App() {
       mode: 'dark',
     },
   });
-
+  const baseUrl = `https://www.thaqalayn-api.net/api/v2`
   let books = [ {value: 'allBooks', text: 'All Books'}];
 
   React.useEffect(() => {
@@ -22,7 +22,7 @@ function App() {
       }
     });
     const fetchData = async () => {
-      const data = await axios.get("https://9pq0cudihi.execute-api.us-east-1.amazonaws.com/dev/api/allbooks")
+      const data = await axios.get(`${baseUrl}/allbooks`)
       for (let i = 0;i<data.data.length;i++) {
         let someBook = data.data[i]
         let newAuthor = someBook.author.split("al-");
@@ -74,12 +74,12 @@ function App() {
     let data = undefined
     console.log("chosenBook: ",chosenBook);
     if (chosenBook === "allBooks") {
-      request = await axios.get("https://9pq0cudihi.execute-api.us-east-1.amazonaws.com/dev/api/random")
+      request = await axios.get(`${baseUrl}/random`)
       data = request.data
       console.log("data after clicking button: ",data);
     }
     else {
-      const requestURL = "https://9pq0cudihi.execute-api.us-east-1.amazonaws.com/dev/api/" + chosenBook+"/" +"random" 
+      const requestURL = baseUrl +"/"+ chosenBook+"/random" 
       request = await axios.get(requestURL)
       data = request.data[0]
       console.log("data after clicking button: ",data);
